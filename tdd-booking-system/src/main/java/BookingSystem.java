@@ -11,7 +11,7 @@ public class BookingSystem {
     }
 
     public boolean book(String user, int from, int till) {
-        if(from < 8) return false;
+        if(from < 8 || till >= 20)  return false;
         for(int i = from;i<till;i++){
             bookedHours.put(i,user);
         }

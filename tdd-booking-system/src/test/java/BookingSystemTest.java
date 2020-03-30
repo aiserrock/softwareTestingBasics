@@ -27,4 +27,11 @@ public class BookingSystemTest {
 
     }
 
+    @Test
+    public void impossibleToBookIntervalLaterThan8pm(){
+        assertThat(bookingSystem.book("user",20,22)).isFalse();
+        assertThat(bookingSystem.getBookedHoursList()).isEmpty();
+
+    }
+
 }
