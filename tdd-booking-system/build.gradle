@@ -14,4 +14,5 @@ repositories {
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     testImplementation("org.assertj:assertj-core:3.15.0")
+    testImplementation('pl.pragmatists:JUnitParams:1.1.1')
 }
