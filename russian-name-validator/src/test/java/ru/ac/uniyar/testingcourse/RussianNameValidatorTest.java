@@ -13,9 +13,9 @@ import static org.assertj.core.api.Assertions.*;
 @RunWith(JUnitParamsRunner.class)
 public class RussianNameValidatorTest {
     RussianNameValidator validator = new RussianNameValidator();
-////exist two ways test true and false ways
-////first true
-//
+
+//TEST CASES
+
 ////1.Корректные данные
 //    //1.1 Два слова
 //      //Иванов Иван
@@ -54,6 +54,9 @@ public class RussianNameValidatorTest {
 //            //Иванов Иван-петр
 //            //иВАНОВ - Иван
 //            //Иванов--Петров Иван
+    //      2.2.4 Тройная Фамилия/Тройное имя
+                //Иванов-Петров-Смирнов Иван
+                //Иванов Иван-Иван-Пётр
 //    //2.3 Три слова
             //2.3.1 Варианты из п. 1.1 с неправильными отчествами:
 //              //иванович
@@ -65,23 +68,34 @@ public class RussianNameValidatorTest {
 //
 //    //2.4 Колл-во слов > 3
 //    //Иванов Иван Иванович Лалалович
+
+
+    //TESTS
+
+    //2.0
     @Test
     public void testNull(){
         assertThatThrownBy(()->validator.validate(null)).isInstanceOf(NullPointerException.class);
     }
 
+    //1.1 1.2
     @Test
     @Parameters(method = "validNamesOf2Words, validNamesOf3Words")
     public void testValidNames(String name){
         assertThat(validator.validate(name)).isTrue();
     }
 
+    //2.2 2.3
     @Test
-    @Parameters(method = "invalidNamesOf2Words,invalidNamesOf2WordsWithValidPatronymic,validNamesOf2WordsWithInvalid")
+    @Parameters(method = "invalidNamesOf2Words,invalidNamesOf2WordsWithValidPatronymic,validNamesOf2WordsWithInvalidPatronymic,otherInvalidNames")
     public void testInvalidNames(String name){
         assertThat(validator.validate(name)).isFalse();
     }
 
+
+    //AUXILIARY METHODS ARE BELOW
+
+    //1.1
     String[] validNamesOf2Words(){
         return new String[]{
                 "Иванов Иван",
@@ -91,10 +105,19 @@ public class RussianNameValidatorTest {
         };
     }
 
+    //1.2
+    LinkedList<String> validNamesOf3Words(){
+        LinkedList<String> result = new LinkedList<>();
+        for (String name: validNamesOf2Words()){
+            result.add(name+" Иванович");
+        }
+        return result;
+    }
+
+    //2.2
     String[] invalidNamesOf2Words(){
         return new String[]{
                 "English Name",
-                "Иванов Иван",
                 "Иванов Ив@н",
                 "Иванов *****",
                 "12345 Иван",
@@ -104,19 +127,13 @@ public class RussianNameValidatorTest {
                 "Иванов ИВан",
                 "-иванов Иван",
                 "Иванов -иван",
-                "Иванов-Петров Смирнов Иван"
+                "Иванов-Петров-Смирнов Иван"
         };
     }
 
-    LinkedList<String> validNamesOf3Words(){
-        LinkedList<String> result = new LinkedList<>();
-        for (String name: validNamesOf2Words()){
-            result.add(name+" Иванович");
-        }
-        return result;
-    }
 
-    LinkedList<String> invalidNamesOf2WordsWithValidParonymic(){
+    //2.3.1
+    LinkedList<String> invalidNamesOf2WordsWithValidPatronymic(){
         LinkedList<String> result = new LinkedList<>();
         for(String name: invalidNamesOf2Words()){
             result.add(name+" Васильевич");
@@ -124,6 +141,18 @@ public class RussianNameValidatorTest {
         return result;
     }
 
+    //2.3.2
+    LinkedList<String> validNamesOf2WordsWithInvalidPatronymic(){
+        LinkedList<String> result = new LinkedList<>();
+        for(String name :validNamesOf2Words()){
+            for(String patronymic: invalidPatronymics()){
+                result.add(name+" "+patronymic);
+            }
+        }
+        return result;
+    }
+
+    //help for 2.3.2
     String[] invalidPatronymics(){
         return  new String[]{
                 "иванович",
@@ -134,6 +163,7 @@ public class RussianNameValidatorTest {
         };
     }
 
+    //2.1 2.4
     Object[] otherInvalidNames(){
         return new Object[]{
                 "Иванов Иван Иванович Подыванович",
