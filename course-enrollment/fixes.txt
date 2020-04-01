@@ -1,0 +1,57 @@
+1. public void enroll(int studentId)
+before:
+public void enroll(int studentId) {
+        if (enrollList.contains(studentId) || waitingList.contains(studentId)) {
+            return;
+        }
+        if (hasWaitingList()) {
+            waitingList.add(studentId);
+        } else {
+            enrollList.add(studentId);
+        }
+    }
+after:
+public void enroll(int studentId) {
+        if (enrollList.contains(studentId) || waitingList.contains(studentId)) {
+            return;
+        }
+        if (hasWaitingList() || isFullyEnrolled()) {
+            waitingList.add(studentId);
+        } else {
+            enrollList.add(studentId);
+        }
+    }
+
+2.public void unenroll(int studentId)
+before:
+public void unenroll(int studentId) {
+        if (waitingList.contains(studentId)) {
+            waitingList.remove(studentId);
+        }
+        if (enrollList.contains(studentId)) {
+            enrollList.remove(studentId);
+            if (hasWaitingList()) {
+                enrollList.add(waitingList.removeFirst());
+            }
+        }
+    }
+after:
+public void unenroll(int studentId) {
+        if (waitingList.contains(studentId)) {
+            for(int i=0;i<waitingList.size();i++){
+                if(waitingList.get(i) == studentId){
+                    waitingList.remove(i);
+                }
+            }
+        }
+        if (enrollList.contains(studentId)) {
+            for(int i=0;i<enrollList.size();i++){
+                if(enrollList.get(i) == studentId){
+                    enrollList.remove(i);
+                }
+            }
+            if (hasWaitingList()) {
+                enrollList.add(waitingList.removeFirst());
+            }
+        }
+    }

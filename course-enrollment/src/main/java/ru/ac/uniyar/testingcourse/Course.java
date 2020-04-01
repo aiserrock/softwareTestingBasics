@@ -37,7 +37,7 @@ public class Course {
         if (enrollList.contains(studentId) || waitingList.contains(studentId)) {
             return;
         }
-        if (hasWaitingList()) {
+        if (hasWaitingList() || isFullyEnrolled()) {
             waitingList.add(studentId);
         } else {
             enrollList.add(studentId);
@@ -50,10 +50,18 @@ public class Course {
      */
     public void unenroll(int studentId) {
         if (waitingList.contains(studentId)) {
-            waitingList.remove(studentId);
+            for(int i=0;i<waitingList.size();i++){
+                if(waitingList.get(i) == studentId){
+                    waitingList.remove(i);
+                }
+            }
         }
         if (enrollList.contains(studentId)) {
-            enrollList.remove(studentId);
+            for(int i=0;i<enrollList.size();i++){
+                if(enrollList.get(i) == studentId){
+                    enrollList.remove(i);
+                }
+            }
             if (hasWaitingList()) {
                 enrollList.add(waitingList.removeFirst());
             }
