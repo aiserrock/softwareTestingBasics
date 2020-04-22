@@ -1,0 +1,19 @@
+name,red,yellow,green,go,with caution,be prepared
+off,0,0,0,1,1,0
+green,0,0,1,1,0,0
+blinking green,0,0,2,1,0,1
+yellow,0,1,0,0,1,0
+invalid1,0,1,1,1,1,0
+invalid2,0,1,2,1,1,0
+invalid3,0,2,1,1,1,0
+invalid4,0,2,2,1,1,0
+red,1,0,0,0,0,0
+invalid5,1,0,1,1,1,0
+invalid6,1,0,2,1,1,0
+red with yellow,1,1,0,0,0,1
+invalid7,1,1,1,1,1,0
+invalid8,1,1,2,1,1,0
+invalid9,1,2,0,1,1,0
+invalid10,1,2,1,1,1,0
+invalid11,1,2,2,1,1,0
+blinking yellow,0,2,0,1,1,0
