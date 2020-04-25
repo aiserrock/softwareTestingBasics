@@ -7,4 +7,5 @@ JUnitParams : https://github.com/Pragmatists/junitparams/wiki/Quickstart
 
 тестирование по таблицам решений
 Классы конвертеры для типов данных Boolean и Ternar : https://pastebin.com/hwHK4LT1
+
 Примеры использования конвертеров : https://github.com/Pragmatists/JUnitParams/blob/master/src/test/java/junitparams/usage/SamplesOfUsageTest.java#L136
