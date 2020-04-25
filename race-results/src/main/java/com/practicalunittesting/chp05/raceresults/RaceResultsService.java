@@ -1,6 +1,7 @@
 package com.practicalunittesting.chp05.raceresults;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedList;
 
 /**
@@ -16,7 +17,7 @@ import java.util.LinkedList;
  */
 public class RaceResultsService {
 
-	private Collection<Client> clients = new LinkedList<Client>();
+	private Collection<Client> clients = new HashSet<Client>();
 
 	public void addSubscriber(Client client) {
 		clients.add(client);
