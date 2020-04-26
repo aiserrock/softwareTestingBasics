@@ -1,5 +1,8 @@
 package ru.ac.uniyar.testingcourse.grades;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +24,7 @@ public interface Dao {
      * @return Ассоциативный массив, сопоставляющий каждому студенту (по имени)
      * список с его оценками за месяц.
      */
-    Map<String, List<Integer>> retrieveAllGrades(int month);
+    ImmutableMap<String, ImmutableList<Integer>> retrieveAllGrades(int month);
     
     /**
      * Сохранение имени лучшего студента в БД.

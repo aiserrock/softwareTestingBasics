@@ -1,6 +1,8 @@
 package ru.ac.uniyar.testingcourse.grades;
 
 import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Table;
 import java.util.Comparator;
 import java.util.List;
@@ -25,9 +27,7 @@ public class AverageGradeCalculator {
     }
     
     private Double calculateAverage(List<Integer> list) {
-        return new Double(list.stream()
-                .reduce(0, (acc, element) -> acc + element) 
-                / list.size());
+        return new Double((double)(list.stream().reduce(0, (acc, element) -> acc + element))/list.size());
     }
     
     /**
@@ -68,7 +68,8 @@ public class AverageGradeCalculator {
      * null, если база данных пуста.
      */
     public String recalculateAndStoreBestStudent(int month) {
-        Map<String, List<Integer>> grades = dao.retrieveAllGrades(month);
+        ImmutableMap<String, ImmutableList<Integer>> grades = dao.retrieveAllGrades(month);
+        if(grades.isEmpty()) return null;
         Map<String, Double> averages = grades.entrySet().stream()
                 .collect(Collectors.toMap(Map.Entry::getKey,
                         entry -> calculateAverage(entry.getValue())));
@@ -77,7 +78,8 @@ public class AverageGradeCalculator {
                 .get().getValue();
         String result = averages.entrySet().stream()
                 .filter(entry -> entry.getValue().equals(maxGrade))
-                .map(Map.Entry::getKey).collect(Collectors.joining());
+                .map(Map.Entry::getKey).collect(Collectors.joining(", "));
+        dao.storeBestStudentName(result);
         return result;
     }
 }
